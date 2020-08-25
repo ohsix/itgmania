@@ -618,7 +618,8 @@ RString SongUtil::GetSectionNameFromSongAndSort( const Song* pSong, SortOrder so
 				int iMaxLength = (int)pSong->m_fMusicLengthSeconds;
 				iMaxLength += (iSortLengthSize - (iMaxLength%iSortLengthSize) - 1);
 				int iMinLength = iMaxLength - (iSortLengthSize-1);
-				return ssprintf( "%s-%s", SecondsToMMSS(iMinLength).c_str(), SecondsToMMSS(iMaxLength).c_str() );
+				return ssprintf( "%s-%s", SecondsToMMSS(static_cast<float>(iMinLength)).c_str(),
+					SecondsToMMSS(static_cast<float>(iMaxLength)).c_str() );
 			}
 			else
 				return RString();
