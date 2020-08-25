@@ -152,7 +152,6 @@ void ModIconRow::SetFromGameState()
 	{
 		RString sOption = vsOptions[i];
 		int iPerferredCol = OptionToPreferredColumn( sOption );
-		clamp( iPerferredCol, 0, (int)m_vpModIcon.size()-1 );
 
 		if( iPerferredCol == -1 )
 			continue;	// skip
