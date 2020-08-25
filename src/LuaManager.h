@@ -8,16 +8,19 @@ class RageMutex;
 class XNode;
 class LuaReference;
 
-#ifndef _MSC_VER
+// There used to be a check here for _MSC_VER, preventing
+// use of extern "C" in the MSVC case. As of VS2019, this caused
+// linking problems due to expectation of C++-mangled lua symbols.
+// If removing this check breaks building with older MSVC versions,
+// we should come up with a version-based check after identifying
+// the version where the behavior changed (if it ever did?).
+
 extern "C"
 {
-#endif
 #include "../extern/lua-5.1/src/lua.h"
 #include "../extern/lua-5.1/src/lualib.h"
 #include "../extern/lua-5.1/src/lauxlib.h"
-#ifndef _MSC_VER
 }
-#endif
 
 // For Dialog::Result
 #include "arch/Dialog/Dialog.h"
