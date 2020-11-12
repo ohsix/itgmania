@@ -1036,9 +1036,11 @@ void LuaHelpers::PushValueFunc( lua_State *L, int iArgs )
 }
 
 #include "ProductInfo.h"
-LuaFunction( ProductFamily, (RString) PRODUCT_FAMILY );
+
+// XXXCF: This is a hack to allow Simply Love and other themes to load with our EXE
+LuaFunction( ProductFamily, (RString) "StepMania" );
 LuaFunction( ProductVersion, (RString) product_version );
-LuaFunction( ProductID, (RString) PRODUCT_ID );
+LuaFunction( ProductID, (RString) "StepMania" );
 
 extern char const * const version_date;
 extern char const * const version_time;
