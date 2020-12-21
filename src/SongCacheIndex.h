@@ -14,6 +14,8 @@ public:
 	void ReadFromDisk();
 	static RString GetCacheFilePath( const RString &sGroup, const RString &sPath );
 
+	void DeleteCache();
+
 	void ReadCacheIndex();
 	void SaveCacheIndex();
 	void AddCacheIndex( const RString &path, unsigned hash );

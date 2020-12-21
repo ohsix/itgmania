@@ -82,6 +82,30 @@ static void EmptyDir( RString dir )
 	}
 }
 
+void SongCacheIndex::DeleteCache()
+{
+	EmptyDir(SpecialFiles::CACHE_DIR);
+	EmptyDir(SpecialFiles::CACHE_DIR + "Songs/");
+	EmptyDir(SpecialFiles::CACHE_DIR + "Courses/");
+
+	EmptyDir(SpecialFiles::CACHE_DIR);
+	EmptyDir(SpecialFiles::CACHE_DIR + "Songs/");
+	EmptyDir(SpecialFiles::CACHE_DIR + "Courses/");
+
+	vector<RString> ImageDir;
+	split(CommonMetrics::IMAGES_TO_CACHE, ",", ImageDir);
+	for (unsigned c = 0; c < ImageDir.size(); c++)
+		EmptyDir(SpecialFiles::CACHE_DIR + ImageDir[c] + "/");
+
+	CacheIndex.Clear();
+	/* This is right now in place because our song file paths are apparently being
+	 * cached in two distinct areas, and songs were loading from paths in FILEMAN.
+	 * This is admittedly a hack for now, but this does bring up a good question on
+	 * whether we really need a dedicated cache for future versions of StepMania.
+	 */
+	FILEMAN->FlushDirCache();
+}
+
 void SongCacheIndex::ReadCacheIndex()
 {
 	CacheIndex.ReadFile( CACHE_INDEX );	// don't care if this fails
@@ -92,22 +116,7 @@ void SongCacheIndex::ReadCacheIndex()
 		return; // OK
 
 	LOG->Trace( "Cache format is out of date.  Deleting all cache files." );
-	EmptyDir( SpecialFiles::CACHE_DIR );
-	EmptyDir( SpecialFiles::CACHE_DIR+"Songs/" );
-	EmptyDir( SpecialFiles::CACHE_DIR+"Courses/" );
-	
-	vector<RString> ImageDir;
-	split( CommonMetrics::IMAGES_TO_CACHE, ",", ImageDir );
-	for( unsigned c=0; c<ImageDir.size(); c++ )
-		EmptyDir( SpecialFiles::CACHE_DIR+ImageDir[c]+"/" );
-
-	CacheIndex.Clear();
-	/* This is right now in place because our song file paths are apparently being
-	 * cached in two distinct areas, and songs were loading from paths in FILEMAN.
-	 * This is admittedly a hack for now, but this does bring up a good question on
-	 * whether we really need a dedicated cache for future versions of StepMania.
-	 */
-	FILEMAN->FlushDirCache();
+	DeleteCache();
 }
 
 void SongCacheIndex::SaveCacheIndex()
